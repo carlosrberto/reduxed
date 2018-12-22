@@ -15,8 +15,8 @@ export const handler = (name, fn) =>
   ({ name, fn });
 
 export const getReducer = ({ handlersByType }) =>
-  (initialState, action) =>
-    (initialState ? handlersByType[action.type](initialState, action) : initialState);
+  (state, action) =>
+    (state ? handlersByType[action.type](state, action) : state);
 
 export const getTypes = ({ handlers, options: { typePrefix } }) =>
   handlers.reduce((acc, { name }) => {
@@ -32,3 +32,37 @@ export const getActions = ({ handlers, options: { typePrefix } }) =>
     });
     return acc;
   }, {});
+
+export const actionScope = (scope, actions) =>
+  Object.keys(actions).reduce((acc, key) => {
+    const actionCreator = actions[key];
+    const fn = (...args) => {
+      const action = actionCreator(...args);
+      const meta = action.meta || {};
+      return {
+        ...action,
+        meta: {
+          ...meta,
+          scope,
+        },
+      };
+    };
+    acc[key] = fn;
+    return acc;
+  }, {});
+
+export const reducerScope = (scope, reducer) => (state, action) => {
+  if (action.meta && action.meta.scope === scope) {
+    return reducer(state, action);
+  }
+  return state;
+};
+
+export const withScope = (scope, target) => {
+  if (typeof target === 'function') {
+    return reducerScope(scope, target);
+  } if (typeof target === 'object') {
+    return actionScope(scope, target);
+  }
+  throw Error('Invalid scope target. It should be a reducer function or an object containing action creators');
+};
