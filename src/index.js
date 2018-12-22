@@ -1,4 +1,4 @@
-import { getActionType } from './helpers';
+import { getActionType, isObject, isFunction } from './helpers';
 
 export const create = (...handlers) =>
   (initialState, options = { typePrefix: '' }) => {
@@ -59,9 +59,9 @@ export const reducerScope = (scope, reducer) => (state, action) => {
 };
 
 export const withScope = (scope, target) => {
-  if (typeof target === 'function') {
+  if (isFunction(target)) {
     return reducerScope(scope, target);
-  } if (typeof target === 'object') {
+  } if (isObject(target)) {
     return actionScope(scope, target);
   }
   throw Error('Invalid scope target. It should be a reducer function or an object containing action creators');
