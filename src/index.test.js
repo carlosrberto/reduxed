@@ -72,5 +72,9 @@ describe('getActions', () => {
 
   it('should return an object with all action creators', () => {
     expect(actions.foo).toBeInstanceOf(Function);
+    expect(actions.foo('value')).toEqual({
+      type: 'app/FOO',
+      payload: 'value',
+    });
   });
 });
