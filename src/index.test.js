@@ -1,19 +1,15 @@
-import { create, handler } from './index';
+import { create, handler, getTypes, getActions } from './index';
 
 describe('create', () => {
   const fn1 = () => {};
   const fn2 = () => {};
-  const name1 = 'name1';
-  const name2 = 'name2';
-
   const args = [
-    handler(name1, fn1),
-    handler(name2, fn2),
+    handler('fooAction', fn1),
+    handler('barAction', fn2),
   ];
-
   const initialState = {};
   const options = {
-    typePrefix: 'app/foo/',
+    typePrefix: 'app/foo',
   };
 
   const created = create(...args)(initialState, options);
@@ -24,17 +20,19 @@ describe('create', () => {
 
   it('should return an object with `handlersByType` key', () => {
     expect(created.handlersByType).toEqual({
-      [`${options.typePrefix}${name1}`]: fn1,
-      [`${options.typePrefix}${name2}`]: fn2,
+      'app/foo/FOO_ACTION': fn1,
+      'app/foo/BAR_ACTION': fn2,
     });
   });
 
   it('should return an object with `initialState` key', () => {
-    expect(created.initialState).toEqual(initialState);
+    expect(created.initialState).toEqual({});
   });
 
   it('should return an object with `options` key', () => {
-    expect(created.options).toEqual(options);
+    expect(created.options).toEqual({
+      typePrefix: 'app/foo',
+    });
   });
 });
 
@@ -49,5 +47,30 @@ describe('handler', () => {
 
   it('should return an object with a `fn` key', () => {
     expect(handlerObject.fn).toEqual(fn);
+  });
+});
+
+describe('getTypes', () => {
+  const created = create(
+    handler('anotherFooAction', () => {}),
+    handler('oneMoreBarAction', () => {}),
+  )(0, { typePrefix: 'app' });
+
+  const types = getTypes(created);
+
+  it('should return an object with all action types', () => {
+    expect(types.anotherFooAction).toEqual('app/ANOTHER_FOO_ACTION');
+    expect(types.oneMoreBarAction).toEqual('app/ONE_MORE_BAR_ACTION');
+  });
+});
+
+describe('getActions', () => {
+  const fn = () => {};
+  const created = create(handler('foo', fn))(0, { typePrefix: 'app' });
+
+  const actions = getActions(created);
+
+  it('should return an object with all action creators', () => {
+    expect(actions.foo).toBeInstanceOf(Function);
   });
 });

@@ -1,7 +1,9 @@
+import { getActionType } from './helpers';
+
 export const create = (...handlers) =>
   (initialState, options = { typePrefix: '' }) => {
     const handlersByType = handlers.reduce((acc, { name, fn }) => {
-      acc[`${options.typePrefix}${name}`] = fn;
+      acc[getActionType(options.typePrefix, name)] = fn;
       return acc;
     }, {});
     return ({
@@ -18,14 +20,14 @@ export const getReducer = ({ handlersByType }) =>
 
 export const getTypes = ({ handlers, options: { typePrefix } }) =>
   handlers.reduce((acc, { name }) => {
-    acc[name] = `${typePrefix}${name}`;
+    acc[name] = getActionType(typePrefix, name);
     return acc;
   }, {});
 
 export const getActions = ({ handlers, options: { typePrefix } }) =>
   handlers.reduce((acc, { name }) => {
     acc[name] = payload => ({
-      type: `${typePrefix}${name}`,
+      type: getActionType(typePrefix, name),
       payload,
     });
     return acc;
