@@ -7,8 +7,12 @@ import {
 
 describe('toSnakeCase', () => {
   it('should convert a camel case string to snake case', () => {
-    expect(toSnakeCase('camelCaseWord'))
-      .toEqual('CAMEL_CASE_WORD');
+    expect(toSnakeCase('camelCase')).toEqual('camel_Case');
+    expect(toSnakeCase('camelCase2')).toEqual('camel_Case2');
+    expect(toSnakeCase('camel2Case')).toEqual('camel2_Case');
+    expect(toSnakeCase('camel@!Case')).toEqual('camel@!_Case');
+    expect(toSnakeCase('camel_Case')).toEqual('camel_Case');
+    expect(toSnakeCase('camel_CaseWord')).toEqual('camel_Case_Word');
   });
 });
 
