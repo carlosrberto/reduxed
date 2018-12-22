@@ -7,19 +7,20 @@
   "author": "Carlos Roberto Gomes Junior <carlos.rberto@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-jest": "^22.4.3",
-    "babel-preset-env": "^1.6.1",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
     "coveralls": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.10.0",
     "husky": "^0.14.3",
-    "jest": "^22.4.3",
+    "jest": "^23.6.0",
     "regenerator-runtime": "^0.11.1",
     "rimraf": "^2.6.2",
-    "rollup": "^0.57.1",
-    "rollup-plugin-babel": "^3.0.3",
+    "rollup": "^0.68.1",
+    "rollup-plugin-babel": "^4.1.0",
     "static-server": "^2.2.0",
     "version-bump-prompt": "^4.0.0"
   },
@@ -34,5 +35,6 @@
     "clean": "rimraf lib",
     "build": "rollup -c",
     "bump": "bump --prompt --commit --tag --push"
-  }
+  },
+  "dependencies": {}
 }
