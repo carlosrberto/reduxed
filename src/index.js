@@ -1,4 +1,5 @@
 import { getActionType, isObject, isFunction } from './helpers';
+import { SCOPE_PROPERTY } from './constants';
 
 export const create = (...handlers) =>
   (initialState, options = { typePrefix: '' }) => {
@@ -38,21 +39,17 @@ export const actionScope = (scope, actions) =>
     const actionCreator = actions[key];
     const fn = (...args) => {
       const action = actionCreator(...args);
-      const meta = action.meta || {};
-      return {
-        ...action,
-        meta: {
-          ...meta,
-          scope,
-        },
-      };
+      const nextAction = Object.defineProperty({ ...action }, SCOPE_PROPERTY, {
+        value: scope,
+      });
+      return nextAction;
     };
     acc[key] = fn;
     return acc;
   }, {});
 
 export const reducerScope = (scope, reducer) => (state, action) => {
-  if (action.meta && action.meta.scope === scope) {
+  if (action && action[SCOPE_PROPERTY] === scope) {
     return reducer(state, action);
   }
   return state;
