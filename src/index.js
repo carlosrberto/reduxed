@@ -58,7 +58,7 @@ export const reducerScope = (scope, reducer) => (state, action) => {
 };
 
 export const withScope = (scope, target) => {
-  if(target) {
+  if (target) {
     if (isFunction(target)) {
       return reducerScope(scope, target);
     } if (isObject(target)) {
@@ -66,6 +66,6 @@ export const withScope = (scope, target) => {
     }
     throw Error('Invalid scope target. It should be a reducer function or an object containing action creators');
   } else {
-    return target => withScope(scope, target);
+    return arg => withScope(scope, arg);
   }
 };

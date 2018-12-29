@@ -112,8 +112,8 @@ const setupScope = () => {
     reducer,
     scopedActions,
     scopedReducer,
-  }
-}
+  };
+};
 
 describe('actionScope', () => {
   const { scopedActions } = setupScope();
