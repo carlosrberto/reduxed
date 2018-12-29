@@ -49,7 +49,9 @@ export const actionScope = (scope, actions) =>
   }, {});
 
 export const reducerScope = (scope, reducer) => (state, action) => {
-  if (action && action[SCOPE_PROPERTY] === scope) {
+  if (state === undefined) {
+    return reducer(state, {});
+  } else if (action && action[SCOPE_PROPERTY] === scope) {
     return reducer(state, action);
   }
   return state;
