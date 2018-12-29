@@ -9,11 +9,11 @@ script:
 - yarn build
 after_success:
 - yarn cov:publish
-# deploy:
-#   provider: npm
-#   email: carlos.rberto@gmail.com
-#   skip_cleanup: true
-#   api_key:
-#     secure: J9UwnXlPYAlx3lFPB/2VU9Vv4Y0xQmEPgEzgMic9keVjTKKnIfckdly1ppnaw8jFqe51sZiGeZqWwkajDzgQXUplX19vhIuR3qr6dXwKjeUCtdHpCrrFvZ0cKIJiN+nktMxOdmrL/JZ8xP4IBN0VovdAL4yVU7+69P/Bey8xyiLVr3BGon2e8Hcnz6HhhNgypSm59x+lULp2/7V3u7OXXXXRJkVo2Z8tnT+V7baIkgfyB0ub804iuO28z3o8tlsWWO97rMy17CtdcEhIiYPK9hSFkyP1Z0xaQfLRZdVy8ZhSLW4tvTdGiSXqSpWVHCNb/7Tp2mCXofWxjVB0dm4+cRAktSukHTwtAXNbaQQ1SaVlgl1MD9sT/4RMuQ4J+7zhyP/wRN1JQsFYh8lBseCcEPwZgsoZeSuJbVippgIsoXynY2G0kmAkbeAsmGzhRJYNbeAK8In1AOtxcvu71NofLKejIHuVVZ088LxYnVKoHJeubvWrQyKxDMfCt2Apa07Q7HS4yWT9lwN8FfoRR7O3aE082I1JWd7hvXTpodK/mJWsHb4mE1t3/D5drRd4FSJN70N/3mbMBmfawfFQSW8RM/HfTLoV3rALfc+fQAmtwEJH1MfnQAaMsyWx2mEdx+ZJqis0zkyP+G5J2tJgbWCnjsiAHoMgRSd0yC1+enP7ZnY=
-#   on:
-#     tags: true
+deploy:
+  provider: npm
+  email: carlos.rberto@gmail.com
+  skip_cleanup: true
+  api_key:
+    secure: J9UwnXlPYAlx3lFPB/2VU9Vv4Y0xQmEPgEzgMic9keVjTKKnIfckdly1ppnaw8jFqe51sZiGeZqWwkajDzgQXUplX19vhIuR3qr6dXwKjeUCtdHpCrrFvZ0cKIJiN+nktMxOdmrL/JZ8xP4IBN0VovdAL4yVU7+69P/Bey8xyiLVr3BGon2e8Hcnz6HhhNgypSm59x+lULp2/7V3u7OXXXXRJkVo2Z8tnT+V7baIkgfyB0ub804iuO28z3o8tlsWWO97rMy17CtdcEhIiYPK9hSFkyP1Z0xaQfLRZdVy8ZhSLW4tvTdGiSXqSpWVHCNb/7Tp2mCXofWxjVB0dm4+cRAktSukHTwtAXNbaQQ1SaVlgl1MD9sT/4RMuQ4J+7zhyP/wRN1JQsFYh8lBseCcEPwZgsoZeSuJbVippgIsoXynY2G0kmAkbeAsmGzhRJYNbeAK8In1AOtxcvu71NofLKejIHuVVZ088LxYnVKoHJeubvWrQyKxDMfCt2Apa07Q7HS4yWT9lwN8FfoRR7O3aE082I1JWd7hvXTpodK/mJWsHb4mE1t3/D5drRd4FSJN70N/3mbMBmfawfFQSW8RM/HfTLoV3rALfc+fQAmtwEJH1MfnQAaMsyWx2mEdx+ZJqis0zkyP+G5J2tJgbWCnjsiAHoMgRSd0yC1+enP7ZnY=
+  on:
+    tags: true
