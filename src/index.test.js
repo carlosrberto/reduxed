@@ -5,6 +5,7 @@ import {
   getActions,
   actionScope,
   reducerScope,
+  withScope,
 } from './index';
 
 describe('create', () => {
@@ -86,14 +87,36 @@ describe('getActions', () => {
   });
 });
 
-describe('actionScope', () => {
+const setupScope = () => {
   const actions = {
     increment: () => ({ type: 'INCREMENT' }),
     decrement: () => ({ type: 'DECREMENT' }),
   };
 
-  const scopedActions = actionScope('counter-1', actions);
+  const reducer = (state = 0, action) => {
+    switch (action.type) {
+      case 'INCREMENT':
+        return state + 1;
+      case 'DECREMENT':
+        return state - 1;
+      default:
+        return state;
+    }
+  };
 
+  const scopedActions = actionScope('counter-1', actions);
+  const scopedReducer = reducerScope('counter-1', reducer);
+
+  return {
+    actions,
+    reducer,
+    scopedActions,
+    scopedReducer,
+  }
+}
+
+describe('actionScope', () => {
+  const { scopedActions } = setupScope();
   it('should add an property `reduxed-scope` in all actions', () => {
     expect(scopedActions.increment()).toHaveProperty('reduxed-scope');
     expect(scopedActions.decrement()).toHaveProperty('reduxed-scope');
@@ -111,24 +134,11 @@ describe('actionScope', () => {
 });
 
 describe('reducerScope', () => {
-  const reducer = (state = 0, action) => {
-    switch (action.type) {
-      case 'INCREMENT':
-        return state + 1;
-      case 'DECREMENT':
-        return state - 1;
-      default:
-        return state;
-    }
-  };
-
-  const actions = {
-    increment: () => ({ type: 'INCREMENT' }),
-    decrement: () => ({ type: 'DECREMENT' }),
-  };
-
-  const scopedActions = actionScope('counter-1', actions);
-  const scopedReducer = reducerScope('counter-1', reducer);
+  const {
+    scopedActions,
+    scopedReducer,
+    actions,
+  } = setupScope();
 
   it('should return the initial state when no action was provided', () => {
     expect(scopedReducer(undefined, {})).toEqual(0);
@@ -141,5 +151,19 @@ describe('reducerScope', () => {
   it('should apply action if the scope is the same from reducer', () => {
     expect(scopedReducer(0, scopedActions.increment())).toEqual(1);
     expect(scopedReducer(0, scopedActions.decrement())).toEqual(-1);
+  });
+});
+
+describe('withScope', () => {
+  const { actions } = setupScope();
+
+  it('should return a function when no target is provided', () => {
+    const firstCounterScope = withScope('counter-1');
+    expect(firstCounterScope).toBeInstanceOf(Function);
+  });
+
+  it('should return an object with actions when an object with actions is provided', () => {
+    const scopedActions = withScope('counter-1', actions);
+    expect(scopedActions).toBeInstanceOf(Object);
   });
 });
