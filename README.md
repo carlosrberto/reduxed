@@ -9,7 +9,7 @@ This project is not intended to production use yet. I'm still working on it.
 
 # Reduxed
 
-Reduxed is a [Redux](https://redux.js.org) helper library for creating type constants, actions and reducers and more without all Redux boilerplate.
+Reduxed is a [Redux](https://redux.js.org) helper library for creating type constants, actions, reducers and more without all Redux boilerplate.
 
 ## Why?
 
@@ -18,9 +18,11 @@ Because Redux has a lot of boilerplate and we always see ourselves doing repetit
 - Creating action type constants
 - Creating action creators
 - Creating reducers with lots of `switch` `case` statements
-- Splitting all this in many files (actions.js, types.js, reducer.js, constants.js, etc...)
+- Splitting all these things in many files (actions.js, types.js, reducer.js, constants.js, etc...)
 
 Or sometimes we need a way to [reuse reducers logic](https://redux.js.org/recipes/structuring-reducers/reusing-reducer-logic) and Redux don't provides a native way to do this.
+
+Reduxed solves the above problems.
 
 ## Installation
 ```sh
@@ -40,8 +42,10 @@ export const DECREMENT = 'app/counter/decrement';
 export const increment = (value = 1) => ({ type: INCREMENT, payload: value });
 export const decrement = (value = 1) => ({ type: DECREMENT, payload: value });
 
+const initialState = 0;
+
 // reducer
-export const reducer = (state = 0, action) => {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case INCREMENT:
       return state + action.payload;
@@ -60,10 +64,12 @@ Now let's see the same **using** Reduxed:
 ```js
 import { create, handler, getActions, getReducer, getTypes } from 'reduxed';
 
+const initialState = 0;
+const options = { typePrefix: 'app/counter' };
 const counter = create(
   handler('increment', (state, payload = 1) => state + payload),
   handler('increment', (state, payload = 1) => state - payload),
-)(0);
+)(initialState, options); // options are optional
 
 export const reducer = getReducer(counter);
 export const actions = getActions(counter);
