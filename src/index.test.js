@@ -2,6 +2,7 @@ import {
   create,
   handler,
   getTypes,
+  getReducer,
   getActions,
   actionScope,
   reducerScope,
@@ -87,6 +88,48 @@ describe('getActions', () => {
   });
 });
 
+const runCounterReducerTests = (reducer, actions) => {
+  describe('generated reducer', () => {
+    it('should return a function', () => {
+      expect(reducer).toBeInstanceOf(Function);
+    });
+
+    it('should be a function with 2 arguments', () => {
+      expect(reducer.length).toEqual(2);
+    });
+
+    it('should return the initial state when using undefined state and invalid action type', () => {
+      expect(reducer(undefined, {})).toEqual(0);
+    });
+
+    it('should return the provided state with invalid action type', () => {
+      expect(reducer(1, {})).toEqual(1);
+    });
+
+    it('should accept an initial state', () => {
+      expect(reducer(2, actions.increment())).toEqual(3);
+      expect(reducer(2, actions.decrement())).toEqual(1);
+    });
+
+    it('should work as expected when an action is provided', () => {
+      expect(reducer(undefined, actions.increment())).toEqual(1);
+      expect(reducer(undefined, actions.decrement())).toEqual(-1);
+    });
+  });
+};
+
+describe('getReducer', () => {
+  const created = create(
+    handler('increment', state => state + 1),
+    handler('decrement', state => state - 1),
+  )(0);
+
+  const actions = getActions(created);
+  const reducer = getReducer(created);
+
+  runCounterReducerTests(reducer, actions);
+});
+
 const setupScope = () => {
   const actions = {
     increment: () => ({ type: 'INCREMENT' }),
@@ -140,30 +183,37 @@ describe('reducerScope', () => {
     actions,
   } = setupScope();
 
-  it('should return the initial state when no action was provided', () => {
-    expect(scopedReducer(undefined, {})).toEqual(0);
-  });
-
-  it('should return the initial state with actions without scope', () => {
+  it('should return the initial state when state is undefined and actions without scope are provided', () => {
     expect(scopedReducer(undefined, actions.increment())).toEqual(0);
   });
 
-  it('should apply action if the scope is the same from reducer', () => {
-    expect(scopedReducer(0, scopedActions.increment())).toEqual(1);
-    expect(scopedReducer(0, scopedActions.decrement())).toEqual(-1);
+  it('should return the provided state when actions without scope are provided', () => {
+    expect(scopedReducer(3, actions.increment())).toEqual(3);
   });
+
+  runCounterReducerTests(scopedReducer, scopedActions);
 });
 
 describe('withScope', () => {
-  const { actions } = setupScope();
+  const { actions, reducer } = setupScope();
 
   it('should return a function when no target is provided', () => {
     const firstCounterScope = withScope('counter-1');
     expect(firstCounterScope).toBeInstanceOf(Function);
+    expect(firstCounterScope(actions)).toBeInstanceOf(Object);
   });
 
   it('should return an object with actions when an object with actions is provided', () => {
     const scopedActions = withScope('counter-1', actions);
     expect(scopedActions).toBeInstanceOf(Object);
+  });
+
+  it('should return a new reducer function when a reducer is provided', () => {
+    const scopedActions = withScope('counter-1', reducer);
+    expect(scopedActions).toBeInstanceOf(Function);
+  });
+
+  it('should throw when target is invalid', () => {
+    expect(() => withScope('counter-1', null)).toThrow();
   });
 });

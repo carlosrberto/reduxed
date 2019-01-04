@@ -15,9 +15,14 @@ export const create = (...handlers) =>
 export const handler = (name, fn) =>
   ({ name, fn });
 
-export const getReducer = ({ handlersByType }) =>
-  (state, action) =>
-    (state ? handlersByType[action.type](state, action) : state);
+export const getReducer = ({ handlersByType, initialState }) =>
+  (state, action) => {
+    const nextState = state === undefined ? initialState : state;
+    if (isFunction(handlersByType[action.type])) {
+      return handlersByType[action.type](nextState, action);
+    }
+    return nextState;
+  };
 
 export const getTypes = ({ handlers, options: { typePrefix } }) =>
   handlers.reduce((acc, { name }) => {
@@ -49,16 +54,14 @@ export const actionScope = (scope, actions) =>
   }, {});
 
 export const reducerScope = (scope, reducer) => (state, action) => {
-  if (state === undefined) {
-    return reducer(state, {});
-  } else if (action && action[SCOPE_PROPERTY] === scope) {
+  if (action && action[SCOPE_PROPERTY] === scope) {
     return reducer(state, action);
   }
-  return state;
+  return reducer(state, {});
 };
 
 export const withScope = (scope, target) => {
-  if (target) {
+  if (target !== undefined) {
     if (isFunction(target)) {
       return reducerScope(scope, target);
     } if (isObject(target)) {
