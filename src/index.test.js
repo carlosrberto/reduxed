@@ -115,13 +115,17 @@ const runCounterReducerTests = (reducer, actions) => {
       expect(reducer(undefined, actions.increment())).toEqual(1);
       expect(reducer(undefined, actions.decrement())).toEqual(-1);
     });
+
+    it('should work as expected when an action with payload is provided', () => {
+      expect(reducer(1, actions.increment(10))).toEqual(11);
+    });
   });
 };
 
 describe('getReducer', () => {
   const created = create(
-    handler('increment', state => state + 1),
-    handler('decrement', state => state - 1),
+    handler('increment', (state, payload = 1) => state + payload),
+    handler('decrement', (state, payload = 1) => state - payload),
   )(0);
 
   const actions = getActions(created);
@@ -132,16 +136,16 @@ describe('getReducer', () => {
 
 const setupScope = () => {
   const actions = {
-    increment: () => ({ type: 'INCREMENT' }),
-    decrement: () => ({ type: 'DECREMENT' }),
+    increment: (payload = 1) => ({ type: 'INCREMENT', payload }),
+    decrement: (payload = 1) => ({ type: 'DECREMENT', payload }),
   };
 
   const reducer = (state = 0, action) => {
     switch (action.type) {
       case 'INCREMENT':
-        return state + 1;
+        return state + action.payload;
       case 'DECREMENT':
-        return state - 1;
+        return state - action.payload;
       default:
         return state;
     }
@@ -166,8 +170,8 @@ describe('actionScope', () => {
   });
 
   it('should not enumerate `reduxed-scope` property', () => {
-    expect(scopedActions.increment()).toEqual({ type: 'INCREMENT' });
-    expect(scopedActions.decrement()).toEqual({ type: 'DECREMENT' });
+    expect(scopedActions.increment(1)).toEqual({ type: 'INCREMENT', payload: 1 });
+    expect(scopedActions.decrement(2)).toEqual({ type: 'DECREMENT', payload: 2 });
   });
 
   it('should have a property `reduxed-scope` with the passed scope', () => {
