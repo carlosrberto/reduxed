@@ -82,15 +82,15 @@ Then you can use your reducer, actions and types like you normally do.
 **`getReducer`** will return a Redux like reducer function that accepts a state and action as arguments:
 
 ```js
-reducer(1, { type: 'INCREMENT' }) // 2
+reducer(1, { type: 'app/counter/INCREMENT' }) // 2
 ```
 
 **`getActions`** will return an object like the following:
 
 ```js
 {
-  increment: payload => ({ type: 'INCREMENT', payload }),
-  decrement: payload => ({ type: 'DECREMENT', payload }),
+  increment: payload => ({ type: 'app/counter/INCREMENT', payload }),
+  decrement: payload => ({ type: 'app/counter/DECREMENT', payload }),
 }
 ```
 
@@ -98,24 +98,9 @@ reducer(1, { type: 'INCREMENT' }) // 2
 
 ```js
 {
-  increment: 'INCREMENT',
-  decrement: 'DECREMENT',
+  increment: 'app/counter/INCREMENT',
+  decrement: 'app/counter/DECREMENT',
 }
-```
-
-If you want to add a prefix to your action types you can use the `typePrefix` option:
-
-```js
-const counter = create(
-  handler('increment', (state, payload = 1) => state + payload),
-  handler('increment', (state, payload = 1) => state - payload),
-)(0, { typePrefix: 'app/counter' });
-
-const types = getTypes(counter)
-// {
-//  'increment': 'app/counter/INCREMENT',
-//  'decrement': 'app/counter/DECREMENT',
-// }
 ```
 
 ## Reusing reducer logic
@@ -144,4 +129,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const scopedActions = withScope(ownProps.scope, actions);
   return bindActionCreators(scopedActions, dispatch);
 }
+```
+
+In your components:
+
+```jsx
+const Counters = () => (
+  <div>
+    <Counter scope="A" />
+    <Counter scope="B" />
+    <Counter scope="C" />
+  </div>
+);
 ```
