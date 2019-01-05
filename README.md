@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/carlosrberto/reduxed.svg?branch=master)](https://travis-ci.org/carlosrberto/reduxed)
-[![Coverage Status](https://coveralls.io/repos/github/carlosrberto/reduxed/badge.svg?branch=master)](https://coveralls.io/github/carlosrberto/reduxed?branch=master)
-[![npm version](https://badge.fury.io/js/reduxed.svg)](https://badge.fury.io/js/reduxed)
+[![Coverage Status](https://img.shields.io/coveralls/github/carlosrberto/reduxed.svg)](https://coveralls.io/github/carlosrberto/reduxed?branch=master)
+![](https://img.shields.io/npm/v/reduxed.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c8fd083ed221786de7cc/maintainability)](https://codeclimate.com/github/carlosrberto/reduxed/maintainability)
 
 :warning: **Warning** :warning:
