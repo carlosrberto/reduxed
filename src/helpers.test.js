@@ -21,6 +21,14 @@ describe('getActionType', () => {
     expect(getActionType('foo/bar', 'fooBarAction'))
       .toEqual('foo/bar/FOO_BAR_ACTION');
   });
+
+  it('should return only the name if prefix is invalid', () => {
+    expect(getActionType('', 'fooBarAction'))
+      .toEqual('FOO_BAR_ACTION');
+
+    expect(getActionType(undefined, 'fooBarAction'))
+      .toEqual('FOO_BAR_ACTION');
+  });
 });
 
 describe('isFunction', () => {
