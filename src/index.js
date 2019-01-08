@@ -18,7 +18,7 @@ export const handler = (name, fn) =>
 export const getReducer = ({ handlersByType, initialState }) =>
   (state, action) => {
     const nextState = state === undefined ? initialState : state;
-    if (isFunction(handlersByType[action.type])) {
+    if (isObject(action) && isFunction(handlersByType[action.type])) {
       return handlersByType[action.type](nextState, action.payload);
     }
     return nextState;

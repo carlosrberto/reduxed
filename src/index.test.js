@@ -74,16 +74,24 @@ describe('getTypes', () => {
 });
 
 describe('getActions', () => {
-  const fn = () => {};
-  const created = create(handler('foo', fn))(0, { typePrefix: 'app' });
+  const created = create(handler('increment', (state, payload = 1) => state + payload))(0, { typePrefix: 'app' });
 
   const actions = getActions(created);
 
   it('should return an object with all action creators', () => {
-    expect(actions.foo).toBeInstanceOf(Function);
-    expect(actions.foo('value')).toEqual({
-      type: 'app/FOO',
-      payload: 'value',
+    expect(actions.increment).toBeInstanceOf(Function);
+  });
+
+  it('should return action argument as payload', () => {
+    expect(actions.increment(2)).toEqual({
+      type: 'app/INCREMENT',
+      payload: 2,
+    });
+  });
+
+  it('should return undefined payload when action arguments are undefined', () => {
+    expect(actions.increment()).toEqual({
+      type: 'app/INCREMENT',
     });
   });
 });
