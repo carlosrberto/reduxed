@@ -68,7 +68,7 @@ const initialState = 0;
 const options = { typePrefix: 'app/counter' };
 const counter = create(
   handler('increment', (state, payload = 1) => state + payload),
-  handler('increment', (state, payload = 1) => state - payload),
+  handler('decrement', (state, payload = 1) => state - payload),
 )(initialState, options); // options are optional
 
 export const reducer = getReducer(counter);
