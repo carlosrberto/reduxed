@@ -4,9 +4,9 @@ export const toSnakeCase = value =>
     .replace(/\s/g, '');
 
 export const getActionType = (prefix, name) => {
-  const before = !!prefix ? `${prefix}/` : '';
+  const before = prefix ? `${prefix}/` : '';
   return `${before}${toSnakeCase(name).toUpperCase()}`;
-}
+};
 
 export const isObject = value =>
   !!value && value.constructor === Object;
