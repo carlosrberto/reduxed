@@ -62,13 +62,14 @@ export const reducer = (state = initialState, action) => {
 Now let's see the same **using** Reduxed:
 
 ```js
-import { create, handler, getActions, getReducer, getTypes } from 'reduxed';
+import { create, handler, getActions, getReducer, getTypes } from "reduxed";
 
 const initialState = 0;
-const options = { typePrefix: 'app/counter' };
+const options = { typePrefix: "app/counter" };
+
 const counter = create(
-  handler('increment', (state, payload = 1) => state + payload),
-  handler('decrement', (state, payload = 1) => state - payload),
+  handler("increment", (state, payload = 1) => state + payload),
+  handler("decrement", (state, payload = 1) => state - payload)
 )(initialState, options); // options are optional
 
 export const reducer = getReducer(counter);
@@ -142,3 +143,14 @@ const Counters = () => (
   </div>
 );
 ```
+
+## Try it
+
+Simple counter:
+
+[![Edit Reduxed - Simple Counter](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/xjnx083yz4)
+
+
+Multiple counters with scope:
+
+[![Edit Reduxed -  Counter with scope](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/ql6m73jwn9)
