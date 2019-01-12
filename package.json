@@ -41,7 +41,8 @@
     "lint:fix": "eslint . --fix",
     "clean": "rimraf lib",
     "build": "rollup -c",
-    "bump": "bump --prompt --commit --tag --push"
+    "bump": "bump --prompt --commit --tag --push",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {}
 }
