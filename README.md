@@ -3,10 +3,6 @@
 ![](https://img.shields.io/npm/v/reduxed.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c8fd083ed221786de7cc/maintainability)](https://codeclimate.com/github/carlosrberto/reduxed/maintainability)
 
-:warning: **Warning** :warning:
-
-This project is not intended to production use yet. I'm still working on it.
-
 # Reduxed
 
 Reduxed is a [Redux](https://redux.js.org) helper library for creating type constants, actions, reducers and more without all Redux boilerplate.
@@ -23,6 +19,12 @@ Because Redux has a lot of boilerplate and we always see ourselves doing repetit
 Or sometimes we need a way to [reuse reducers logic](https://redux.js.org/recipes/structuring-reducers/reusing-reducer-logic) and Redux don't provides a native way to do this.
 
 Reduxed solves the above problems.
+
+## Read more
+
+You can read a more in-depth introduction about Reduxed in the article below:
+
+[Reduxed  -  Reduced Redux Boilerplate](https://medium.com/@carlosrberto/reduxed-reduced-redux-boilerplate-2f4b393b432a)
 
 ## Installation
 ```sh
