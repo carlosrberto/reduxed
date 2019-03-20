@@ -9,14 +9,21 @@
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
+    "@babel/preset-flow": "^7.0.0",
     "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "coveralls": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-flowtype": "^3.2.1",
     "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "flow-bin": "^0.90.0",
     "husky": "^0.14.3",
     "jest": "^23.6.0",
+    "prettier": "1.15.3",
     "regenerator-runtime": "^0.11.1",
     "rimraf": "^2.6.2",
     "rollup": "^0.68.1",
@@ -34,7 +41,8 @@
     "lint:fix": "eslint . --fix",
     "clean": "rimraf lib",
     "build": "rollup -c",
-    "bump": "bump --prompt --commit --tag --push"
+    "bump": "bump --prompt --commit --tag --push",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {}
 }
