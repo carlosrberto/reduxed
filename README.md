@@ -74,7 +74,7 @@ const counter = create(
 
 export const reducer = getReducer(counter);
 export const actions = getActions(counter);
-export const types = getActions(counter);
+export const types = getTypes(counter);
 ```
 
 Then you can use your reducer, actions and types like you normally do.
